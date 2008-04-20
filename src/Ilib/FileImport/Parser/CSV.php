@@ -4,7 +4,7 @@
  * 
  */
 
-require_once 'File/CSV.php';
+require_once 'File/CSV/EmptyFirstFieldBugFix.php';
 
 class Ilib_FileImport_Parser_CSV {
     
@@ -59,6 +59,12 @@ class Ilib_FileImport_Parser_CSV {
         return $this->config;
     }
     
+    /**
+     * Assigns fieldnames which the parse will use in return array.
+     * 
+     * @param array names with the array keys to be used in parse return array.
+     * @return boolean true or false
+     */
     public function assignFieldNames($names) {
         
         if(empty($names) || !array($names)) {
@@ -85,7 +91,7 @@ class Ilib_FileImport_Parser_CSV {
             return false;
         }
         
-        $config = File_CSV::discoverFormat($file);
+        $config = File_CSV_EmptyFirstFieldBugFix::discoverFormat($file);
         if (PEAR::isError($config)) {
             $this->error->set('unable to discover config');
             trigger_error($config->getUserInfo(), E_USER_WARNING);
@@ -101,8 +107,8 @@ class Ilib_FileImport_Parser_CSV {
         $i = 0;
         
         // when fx in en tests the file is read several times after each other it needs to be reses before
-        File_CSV::resetPointer($file, $file_csv_config, FILE_MODE_READ); 
-        while (($res = File_CSV::readQuoted($file, $file_csv_config)) && ($lines == NULL || $i < $lines)) {
+        File_CSV_EmptyFirstFieldBugFix::resetPointer($file, $file_csv_config, FILE_MODE_READ); 
+        while (($res = File_CSV_EmptyFirstFieldBugFix::readQuoted($file, $file_csv_config)) && ($lines == NULL || $i < $lines)) {
             if($i >= $offset) {
                 if(!empty($this->field_names)) {
                     $n = 0;
