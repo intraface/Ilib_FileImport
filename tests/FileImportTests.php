@@ -1,83 +1,53 @@
 <?php
-require_once '../../tests.common.php';
+set_include_path(dirname(__FILE__) . '/../src/' . PATH_SEPARATOR . get_include_path());
 
-require_once 'PHPUnit/Framework.php';
-require_once 'Ilib/FileImport.php';
-
-/*
-class FakeRedirectUser
-{
-    function get()
-    {
-        return 1;
-    }
-}
-
-class FakeRedirectIntranet
-{
-    function get()
-    {
-        return 1;
-    }
-}
-
-class FakeRedirectKernel
-{
-    public $user;
-    public $intranet;
-    function __construct()
-    {
-        $this->user = new FakeRedirectUser();
-        $this->intranet = new FakeRedirectIntranet();
-    }
-}
-
-*/
+require_once 'Ilib/ClassLoader.php';
 
 class FileImportTests extends PHPUnit_Framework_TestCase
 {
-    
-
     function setUp()
     {
        
     }
     
-    
-    function testConstruct() {
+    function testConstruct() 
+    {
         $fi = new Ilib_FileImport;
         $this->assertEquals('Ilib_FileImport', get_class($fi)); 
     }
     
-    function testCreateCSVParser() {
-        
+    function testCreateCSVParser() 
+    {
         $fi = new Ilib_FileImport;
         $parser = $fi->createParser('CSV');
         $this->assertEquals('Ilib_FileImport_Parser_CSV', get_class($parser)); 
     }
     
-    function testParseOnInValidFile() {
+    function testParseOnInValidFile() 
+    {
         $fi = new Ilib_FileImport;
         $parser = $fi->createParser('CSV');
         
         $this->assertFalse($parser->parse('invalid_file.csv'));
-        
     }
 
-    function testParseOnValidFile() {
+    function testParseOnValidFile() 
+    {
         $fi = new Ilib_FileImport;
         $parser = $fi->createParser('CSV');
         
         $this->assertTrue(is_array($parser->parse('contacts_example.csv')));
     }
     
-    function testSetParseConfig() {
+    function testSetParseConfig() 
+    {
         $fi = new Ilib_FileImport;
         $parser = $fi->createParser('CSV');
         $this->assertEquals(array('fields' => 10, 'sep' => ';', 'quote' => '\''), $parser->setParseConfig(10, ';', '\''));
     }
     
-    function testGetParseConfigAfterParse() {
+    function testGetParseConfigAfterParse() 
+    {
         $fi = new Ilib_FileImport;
         $parser = $fi->createParser('CSV');
         
@@ -89,13 +59,12 @@ class FileImportTests extends PHPUnit_Framework_TestCase
     /**
      * This test fails until Bug #5257 is fixed!
      */
-    
-    function testParseOneLine() {
+    function testParseOneLine() 
+    {
         $fi = new Ilib_FileImport;
         $parser = $fi->createParser('CSV');
         
         $data = $parser->parse('contacts_example.csv', 3, 1);
-        
         
         $result = array(
             0 => array(
@@ -141,7 +110,8 @@ class FileImportTests extends PHPUnit_Framework_TestCase
         $this->assertEquals($result, $data);
     }
     
-    function testAssignFieldNames() {
+    function testAssignFieldNames() 
+    {
         $fi = new Ilib_FileImport;
         $parser = $fi->createParser('CSV');
         
@@ -149,9 +119,8 @@ class FileImportTests extends PHPUnit_Framework_TestCase
         $this->assertTrue($parser->assignFieldNames($field_names));
     }
     
-    
-    function testParseAfterAssignFieldNames() {
-        
+    function testParseAfterAssignFieldNames() 
+    {
         $fi = new Ilib_FileImport;
         $parser = $fi->createParser('CSV');
         
@@ -184,5 +153,3 @@ class FileImportTests extends PHPUnit_Framework_TestCase
         $this->assertEquals($result, $data);
     }
 }
-?>
-

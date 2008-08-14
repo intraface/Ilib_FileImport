@@ -2,21 +2,8 @@
 /**
  * Imports a file and returns the result as array
  */
-require_once('Ilib/Error.php'); 
-
-class Ilib_FileImport {
-      
-    
-    /**
-     * constructor
-     */
-    public function __construct() 
-    {
-        
-        $this->error = new Ilib_Error;
-        
-    }
-    
+class Ilib_FileImport 
+{
     /**
      * creates and returns a parser object
      * 
@@ -24,11 +11,10 @@ class Ilib_FileImport {
      * 
      * @return mixed parser object on success and false on failure
      */
-    public function createParser($parser) 
+    public static function createParser($parser) 
     {
         if(!ereg("^[a-zA-Z0-9]*$", $parser)) {
-            trigger_error("parser name must only contain characters and numbers", E_USER_ERROR);
-            return false;
+            throw new Exception("Parser name must only contain characters and numbers");
         }
         
         $parser_name = 'Ilib_FileImport_Parser_'.$parser;
@@ -37,9 +23,5 @@ class Ilib_FileImport {
         $obj = new $parser_name;
         
         return $obj;
-        
     } 
 }
-
-
-?>
