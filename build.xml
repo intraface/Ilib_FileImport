@@ -71,6 +71,11 @@
                          recommended_version="1.3.0"
                          minimum_version="1.3.0" />
                 
+                <package name="File_CVS"
+                         channel="pear.php.net"
+                         recommended_version="1.0.0alpha1"
+                         minimum_version="1.0.0alpha1" />
+                
                 <package name="File_EmptyFirstFieldBugFix"
                          channel="public.intraface.dk"
                          recommended_version="0.1.0"
