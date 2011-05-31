@@ -13,7 +13,7 @@ class Ilib_FileImport
      */
     public static function createParser($parser) 
     {
-        if(!ereg("^[a-zA-Z0-9]*$", $parser)) {
+        if(!preg_match("/^[a-zA-Z0-9]*$/", $parser)) {
             throw new Exception("Parser name must only contain characters and numbers");
         }
         
