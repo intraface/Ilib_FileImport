@@ -10,4 +10,4 @@ before_script:
   - pear install intrafacepublic/Ilib_ClassLoader
   - pear install intrafacepublic/File_EmptyFirstFieldBugFix
   - phpenv rehash
-script: phpunit --configuration tests/phpunit.xml --coverage-text
+script: phpunit tests --coverage-text
