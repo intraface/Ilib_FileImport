@@ -1,0 +1,13 @@
+language: php
+php:
+  - 5.2
+  - 5.3
+  - 5.4  
+before_script:
+  - sudo apt-get install php-pear
+  - pear channel-discover public.intraface.dk
+  - pear install pear/File_CSV
+  - pear install intrafacepublic/Ilib_ClassLoader
+  - pear install intrafacepublic/File_EmptyFirstFieldBugFix
+  - phpenv rehash
+script: phpunit --configuration tests/phpunit.xml --coverage-text
