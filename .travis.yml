@@ -4,7 +4,6 @@ php:
   - 5.3
   - 5.4  
 before_script:
-  - sudo apt-get install php-pear
   - pear channel-discover public.intraface.dk
   - pear install --force pear/File_CSV
   - pear install --force intrafacepublic/Ilib_ClassLoader
