@@ -24,7 +24,7 @@
 
     <target name="export">
         <echo msg="Cloning git repository" />
-        <exec command="git clone git://github.com/intraface/Ilib_FileImport.git ${build.dir}" />
+        <exec command="git clone git://github.com/intraface/Ilib_FileImport.git ${build.dir}/temp" />
 
         <mkdir dir="${build.dir}/package/${package-name}-${version}" />
         <copy todir="${build.dir}/package/${package-name}-${version}">
@@ -34,8 +34,8 @@
                 </replacetokens>
             </filterchain>
 
-            <fileset dir="${build.dir}/src">
-                <include name="Ilib/**" />
+            <fileset dir="${build.dir}/temp/src">
+                <include name="**" />
             </fileset>
         </copy>
 
