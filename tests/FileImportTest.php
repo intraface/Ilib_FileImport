@@ -1,60 +1,52 @@
 <?php
-set_include_path(dirname(__FILE__) . '/../src/' . PATH_SEPARATOR . get_include_path());
-
-require_once 'Ilib/ClassLoader.php';
-
 class FileImportTests extends PHPUnit_Framework_TestCase
 {
-    function setUp()
-    {
-    }
-    
-    function testConstruct() 
+    function testConstruct()
     {
         $fi = new Ilib_FileImport;
         $this->assertEquals('Ilib_FileImport', get_class($fi)); 
     }
-    
-    function testCreateCSVParser() 
+
+    function testCreateCSVParser()
     {
         $fi = new Ilib_FileImport;
         $parser = $fi->createParser('CSV');
         $this->assertEquals('Ilib_FileImport_Parser_CSV', get_class($parser)); 
     }
-    
-    function testParseOnInValidFile() 
+
+    function testParseOnInValidFile()
     {
         $fi = new Ilib_FileImport;
         $parser = $fi->createParser('CSV');
-        
+
         $this->assertFalse($parser->parse('invalid_file.csv'));
     }
 
-    function testParseOnValidFile() 
+    function testParseOnValidFile()
     {
         $fi = new Ilib_FileImport;
         $parser = $fi->createParser('CSV');
-        
+
         $this->assertTrue(is_array($parser->parse(dirname(__FILE__) . '/contacts_example.csv')));
     }
-    
-    function testSetParseConfig() 
+
+    function testSetParseConfig()
     {
         $fi = new Ilib_FileImport;
         $parser = $fi->createParser('CSV');
         $this->assertEquals(array('fields' => 10, 'sep' => ';', 'quote' => '\''), $parser->setParseConfig(10, ';', '\''));
     }
-    
+
     function testGetParseConfigAfterParse() 
     {
         $fi = new Ilib_FileImport;
         $parser = $fi->createParser('CSV');
-        
+
         $parser->setParseConfig(NULL, ';', '\'');
         $parser->parse(dirname(__FILE__) . '/contacts_example.csv');
         $this->assertEquals(array('fields' => 37, 'sep' => ';', 'quote' => '\''), $parser->getParseConfig());
     }
-    
+
     /**
      * This test fails until Bug #5257 is fixed!
      */
@@ -62,9 +54,9 @@ class FileImportTests extends PHPUnit_Framework_TestCase
     {
         $fi = new Ilib_FileImport;
         $parser = $fi->createParser('CSV');
-        
+
         $data = $parser->parse(dirname(__FILE__) . '/contacts_example.csv', 3, 1);
-        
+
         $result = array(
             0 => array(
                 0 => '',
@@ -80,7 +72,7 @@ class FileImportTests extends PHPUnit_Framework_TestCase
                 10 => '',
                 11 => 'Vej 4',
                 12 => '',
-                13 => 'Århus V',
+                13 => 'Ã…rhus V',
                 14 => '',
                 15 => '8210',
                 16 => 'Danmark',
@@ -108,29 +100,26 @@ class FileImportTests extends PHPUnit_Framework_TestCase
         );
         $this->assertEquals($result, $data);
     }
-    
+
     function testAssignFieldNames() 
     {
         $fi = new Ilib_FileImport;
         $parser = $fi->createParser('CSV');
-        
+
         $field_names = array('', '', 'name', '', 'email', '', 'phone');
         $this->assertTrue($parser->assignFieldNames($field_names));
     }
-    
+
     function testParseAfterAssignFieldNames() 
     {
         $fi = new Ilib_FileImport;
         $parser = $fi->createParser('CSV');
-        
+
         $field_names = array('', '', 'name', '', 'email', '', 'phone');
         $parser->assignFieldNames($field_names);
         $data = $parser->parse(dirname(__FILE__) . '/contacts_example.csv', 0, 3);
-        
-        /**
-         * @Todo: Update test with new example file!
-         */
-        
+
+        // @Todo: Update test with new example file!
         $result = array(
             0 => array(
                 'name' => 'Jens Jensen',
@@ -138,7 +127,7 @@ class FileImportTests extends PHPUnit_Framework_TestCase
                 'phone' => '12345671'
             ),
             1 => array(
-                'name' => 'Søren Jensen',
+                'name' => 'SÃ¸ren Jensen',
                 'email' => 'soren@example.dk',
                 'phone' => '12345672'
             ),
@@ -148,7 +137,7 @@ class FileImportTests extends PHPUnit_Framework_TestCase
                 'phone' => '12345673'
            )
         );
-        
+
         $this->assertEquals($result, $data);
     }
 }
